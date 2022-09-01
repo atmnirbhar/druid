@@ -61,7 +61,7 @@ hdr = ["piet-common/hdr"]
 serde = ["kurbo/serde"]
 
 [dependencies]
-piet-wgpu = { git = "https://github.com/lapce/piet-wgpu", branch = "shell_opengl" }
+piet-wgpu = { git = "https://github.com/atmnirbhar/piet-wgpu", branch = "shell_opengl" }
 # piet-wgpu = { path = "../../piet-wgpu" }
 # NOTE: When changing the piet or kurbo versions, ensure that
 #       the kurbo version included in piet is compatible with the kurbo version specified here.
