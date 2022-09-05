@@ -711,4 +711,14 @@ impl WindowId {
         static WINDOW_COUNTER: Counter = Counter::new();
         WindowId(WINDOW_COUNTER.next())
     }
+
+    /// window id from usize
+    pub fn from_usize(id: usize) -> WindowId {
+        WindowId(id as u64)
+    }
+
+    /// window id to usize
+    pub fn to_usize(&self) -> usize {
+        self.0 as usize
+    }
 }

@@ -20,7 +20,7 @@ use druid_shell::kurbo::Point;
 use druid_shell::{Clipboard, KeyEvent, TimerToken};
 
 use crate::mouse::MouseEvent;
-use crate::{Command, Notification, WidgetId};
+use crate::{Command, Notification, WidgetId, WindowId};
 
 /// An event, propagated downwards during event flow.
 ///
@@ -55,6 +55,8 @@ pub enum Event {
     ///
     /// This is a good place to do cleanup
     ApplicationWillTerminate,
+    /// Sent to Delegate that the Dock icon is clicked on macOS
+    ApplicationShouldHandleReopen(bool),
     /// Sent to all widgets in a given window when that window is first instantiated.
     ///
     /// This should always be the first `Event` received, although widgets will
@@ -79,6 +81,8 @@ pub enum Event {
     /// This event means the window *will* go away; it is safe to dispose of resources and
     /// do any other cleanup.
     WindowDisconnected,
+    /// The event when window got focus
+    WindowGotFocus(WindowId),
     /// Called on the root widget when the window size changes.
     ///
     /// Discussion: it's not obvious this should be propagated to user
@@ -436,9 +440,11 @@ impl Event {
     pub fn should_propagate_to_hidden(&self) -> bool {
         match self {
             Event::ApplicationWillTerminate
+            | Event::ApplicationShouldHandleReopen(_)
             | Event::WindowConnected
             | Event::WindowCloseRequested
             | Event::WindowDisconnected
+            | Event::WindowGotFocus(_)
             | Event::WindowSize(_)
             | Event::WindowPosition(_)
             | Event::Timer(_)
